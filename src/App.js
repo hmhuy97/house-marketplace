@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";
 import Explore from "./pages/Explore";
 import ForgotPassword from "./pages/ForgotPassword";
 import Profile from "./pages/Profile";
@@ -15,8 +16,9 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
-          <Route path="/forgot-passworf" element={<ForgotPassword />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
         </Routes>
+        <Navbar />
       </Router>
     </>
   );
