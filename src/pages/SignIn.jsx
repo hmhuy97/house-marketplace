@@ -13,7 +13,12 @@ function SignIn() {
 
   const navigate = useNavigate();
 
-  const onChange = () => {};
+  const onChange = (e) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      [e.target.id]: e.target.value,
+    }));
+  };
 
   return (
     <>
@@ -46,7 +51,20 @@ function SignIn() {
               onClick={() => setShowPassword((prevState) => !prevState)}
             />
           </div>
+          <Link to="/forgot-password" className="forgotPasswordLink">
+            Forgot Password
+          </Link>
+          <div className="signInBar">
+            <p className="signInText">Sign In</p>
+            <button className="signInButton">
+              <ArrowRightIcon fill="#fff" width="34px" height="34px" />
+            </button>
+          </div>
         </form>
+        {/* GG OAuth */}
+        <Link to="/sign-up" className="registerLink">
+          Sign Up Instead
+        </Link>
       </div>
     </>
   );
