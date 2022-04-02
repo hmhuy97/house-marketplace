@@ -1,18 +1,32 @@
 import { useState, useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import { getAuth } from "firebase/auth";
 
 function Profile() {
-  const [user, setUser] = useState(null);
-
   const auth = getAuth();
-  useEffect(() => {
-    setUser(auth.currentUser);
-    console.log(auth.currentUser);
-  }, []);
-  return user ? (
-    <h1>{user.displayName ? user.displayName : "Không có tên"}</h1>
-  ) : (
-    "Not Logged In"
+  const [user, setUser] = useState(null);
+  const [formData, setFormData] = useState({
+    name: auth.currentUser.displayName,
+    email: auth.currentUser.email,
+  });
+
+  const navigate = useNavigate();
+
+  const onLogout = () => {
+    auth.signOut();
+    navigate("/");
+  };
+  return (
+    <div className="profile">
+      <header className="profileHeader">
+        <p className="pageHeader">
+          My Profile
+          <button type="button" className="logOut" onClick={onLogout}>
+            Logout
+          </button>
+        </p>
+      </header>
+    </div>
   );
 }
 
