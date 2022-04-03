@@ -32,6 +32,7 @@ function SignIn() {
         password
       );
       if (userCredential.user) {
+        toast.success("Logged In");
         navigate("/profile");
       }
     } catch (error) {

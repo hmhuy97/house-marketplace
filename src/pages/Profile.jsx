@@ -34,7 +34,7 @@ function Profile() {
         // update in firestore
         const userRef = doc(db, "users", auth.currentUser.uid);
         await updateDoc(userRef, { name });
-        toast.success("Profile details updated");
+        await toast.success("Profile details updated");
       }
     } catch (error) {
       toast.error("Could not update profile details");
