@@ -1,10 +1,14 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { getAuth, updateProfile } from "firebase/auth";
-import { updateDoc } from "firebase/firestore";
-import db from "../firebase.config";
+import { updateDoc, doc } from "firebase/firestore";
+import { db } from "../firebase.config";
+import { toast } from "react-toastify";
 function Profile() {
   const auth = getAuth();
+  useEffect(() => {
+    console.log(auth);
+  }, []);
   const [changeDetails, setChangeDetails] = useState(false);
   const [user, setUser] = useState(null);
   const [formData, setFormData] = useState({
@@ -21,8 +25,20 @@ function Profile() {
     navigate("/");
   };
 
-  const onSubmit = () => {
-    console.log(123);
+  const onSubmit = async () => {
+    try {
+      if (auth.currentUser.displayName !== name) {
+        //Update display name in firebase
+        await updateProfile(auth.currentUser, { displayName: name });
+
+        // update in firestore
+        const userRef = doc(db, "users", auth.currentUser.uid);
+        await updateDoc(userRef, { name });
+        toast.success("Profile details updated");
+      }
+    } catch (error) {
+      toast.error("Could not update profile details");
+    }
   };
   const onChange = (e) => {
     setFormData((prevState) => ({
@@ -63,7 +79,7 @@ function Profile() {
               className={!changeDetails ? "profileName" : "profileNameActive"}
               disabled={!changeDetails}
               value={name}
-              placeholder={name ?? "Không có tên"}
+              placeholder={name}
               onChange={onChange}
             />
             <input

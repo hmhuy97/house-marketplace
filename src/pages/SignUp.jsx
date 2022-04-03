@@ -8,7 +8,9 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { toast } from "react-toastify";
+import { setDoc, doc, serverTimestamp } from "firebase/firestore";
 import { db } from "../firebase.config";
+
 function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -40,6 +42,12 @@ function SignUp() {
 
       updateProfile(auth.currentUser, { displayName: name });
 
+      const formDataCopy = { ...formData };
+      delete formDataCopy.password;
+      formDataCopy.timestamp = serverTimestamp();
+
+      await setDoc(doc(db, "users", user.uid), formDataCopy);
+
       navigate("/");
     } catch (error) {
       toast.error("Something went wrong with registration");
@@ -57,7 +65,7 @@ function SignUp() {
             placeholder="Name"
             type="text"
             id="name"
-            className="emailInput"
+            className="nameInput"
             value={name}
             onChange={onChange}
           />
