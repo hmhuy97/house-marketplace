@@ -62,7 +62,16 @@ function Profile() {
               id="name"
               className={!changeDetails ? "profileName" : "profileNameActive"}
               disabled={!changeDetails}
-              value={name ?? "Không có tên"}
+              value={name}
+              placeholder={name ?? "Không có tên"}
+              onChange={onChange}
+            />
+            <input
+              type="text"
+              id="email"
+              className={!changeDetails ? "profileEmail" : "profileEmailActive"}
+              disabled={!changeDetails}
+              value={email}
               onChange={onChange}
             />
           </form>
